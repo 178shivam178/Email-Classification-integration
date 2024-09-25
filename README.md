@@ -70,30 +70,33 @@ This README provides instructions to set up the project environment, install dep
 
 ## Prerequisites
 
-Ensure you have Python 3.8.13 installed on your system. You can check your Python version with the following command:
+# Ensure you have Python 3.8.13 installed on your system. You can check your Python version with the following command:
 
-```bash
 python --version
 Step 1: Create a Virtual Environment
 Create a virtual environment for the project using Python 3.8.13:
 
-Copy code
+```bash 
 python3.8 -m venv venv
-Activate the virtual environment:
+```
+# Activate the virtual environment:
 
 On macOS and Linux:
-
+ ```bash
 source venv/bin/activate
-On Windows:
+```
 
-venv\Scripts\activate
-Step 2: Install Requirements
+# Step 2: Install Requirements
 With the virtual environment activated, install the required packages listed in requirements.txt:
 
+```bash
 pip install -r requirements.txt
-Step 3: Set Up Environment Variables
+```
+
+# Step 3: Set Up Environment Variables
 Create a .env file in the project root directory and add the following variables:
 
+```bash
 OUTIMAP=your_outlook_imap_server
 OUTLOOK_USERNAME=your_outlook_email
 OUTLOOK_PASSWORD=your_outlook_password
@@ -106,17 +109,22 @@ PORT=5000
 BASE_HOST=127.0.0.1
 BASE_PORT=3008
 OPENAI_API_KEY=your_openai_api_key
+```
 Replace the placeholder values with your actual credentials.
 
-Step 4: Run the Application
+# Step 4: Run the Application
 You can now run the server using the following commands:
 
 To run the main API server:
-
+```bash
 python api.py
+```
 To run the 24x7 tracking server:
 
+```bash
 python 24x7_api.py
+```
+
 The application will now be running and will continuously track emails.
 
 Notes

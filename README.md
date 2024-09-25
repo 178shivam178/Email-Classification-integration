@@ -77,30 +77,23 @@ python --version
 Step 1: Create a Virtual Environment
 Create a virtual environment for the project using Python 3.8.13:
 
-bash
 Copy code
 python3.8 -m venv venv
 Activate the virtual environment:
 
 On macOS and Linux:
-bash
-Copy code
+
 source venv/bin/activate
 On Windows:
-bash
-Copy code
+
 venv\Scripts\activate
 Step 2: Install Requirements
 With the virtual environment activated, install the required packages listed in requirements.txt:
 
-bash
-Copy code
 pip install -r requirements.txt
 Step 3: Set Up Environment Variables
 Create a .env file in the project root directory and add the following variables:
 
-bash
-Copy code
 OUTIMAP=your_outlook_imap_server
 OUTLOOK_USERNAME=your_outlook_email
 OUTLOOK_PASSWORD=your_outlook_password
@@ -119,12 +112,10 @@ Step 4: Run the Application
 You can now run the server using the following commands:
 
 To run the main API server:
-bash
-Copy code
+
 python api.py
 To run the 24x7 tracking server:
-bash
-Copy code
+
 python 24x7_api.py
 The application will now be running and will continuously track emails.
 

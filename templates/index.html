@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail Response Stream</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        #response-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: scroll;
+        }
+    </style>
+    <script>
+        function startStreaming() {
+            const responseContainer = document.getElementById("response-container");
+
+            fetch("/get_response")
+                .then(response => {
+                    const reader = response.body.getReader();
+
+                    function read() {
+                        reader.read().then(({ done, value }) => {
+                            if (done) return;
+
+                            const responseLine = new TextDecoder().decode(value);
+                            const responseObj = JSON.parse(responseLine);
+
+                            const responseItem = document.createElement("div");
+                            responseItem.classList.add("mb-3", "p-3", "bg-light");
+                            responseItem.innerText = JSON.stringify(responseObj, null, 2);
+                            responseContainer.appendChild(responseItem);
+
+                            read(); 
+                        });
+                    }
+
+                    read();
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Mail Streaming</h1>
+        <button class="btn btn-primary mt-3" onclick="startStreaming()">Start Streaming</button>
+        <div id="response-container" class="mt-4"></div>
+    </div>
+</body>
+</html>

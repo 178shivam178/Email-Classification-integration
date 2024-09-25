@@ -64,13 +64,13 @@ The HR Email Classification and Extraction System is designed to streamline the 
    }
 
 
-# Project Setup
+## Project Setup
 
 This README provides instructions to set up the project environment, install dependencies, configure the environment variables, and run the application.
 
 ## Prerequisites
 
-# Ensure you have Python 3.8.13 installed on your system. You can check your Python version with the following command:
+## Ensure you have Python 3.8.13 installed on your system. You can check your Python version with the following command:
 
 python --version
 Step 1: Create a Virtual Environment
@@ -79,21 +79,21 @@ Create a virtual environment for the project using Python 3.8.13:
 ```bash 
 python3.8 -m venv venv
 ```
-# Activate the virtual environment:
+## Activate the virtual environment:
 
 On macOS and Linux:
  ```bash
 source venv/bin/activate
 ```
 
-# Step 2: Install Requirements
+## Step 2: Install Requirements
 With the virtual environment activated, install the required packages listed in requirements.txt:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-# Step 3: Set Up Environment Variables
+## Step 3: Set Up Environment Variables
 Create a .env file in the project root directory and add the following variables:
 
 ```bash
@@ -112,7 +112,7 @@ OPENAI_API_KEY=your_openai_api_key
 ```
 Replace the placeholder values with your actual credentials.
 
-# Step 4: Run the Application
+## Step 4: Run the Application
 You can now run the server using the following commands:
 
 To run the main API server:

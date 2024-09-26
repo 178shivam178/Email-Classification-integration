@@ -5,9 +5,12 @@ import json
 
 load_dotenv()
 
-class DatabaseError(Exception):
-    """Custom exception for database operations."""
-    pass
+if not os.path.exists('logs'):
+    os.makedirs('logs')
+
+def log_error(message):
+    with open('logs/attachment_db.txt', 'a') as log_file:
+        log_file.write(message + "\n")
 
 def get_db_connection():
     """Establish a connection to the MySQL database."""
@@ -21,15 +24,20 @@ def get_db_connection():
         if connection.is_connected():
             return connection
     except mysql.connector.Error as err:
-        raise DatabaseError(f"Error connecting to database: {err}")
+        log_error(f"Error connecting to database: {err}")
+        return None  
 
 def insert_data_attachment(data):
     """Insert user data and associated companies and projects into the database."""
     connection = None
+    cursor = None
     try:
         connection = get_db_connection()
-        cursor = connection.cursor()
+        if connection is None:
+            log_error("No connection could be established.")
+            return  
 
+        cursor = connection.cursor()
         user_query = """
         INSERT INTO Users (Name, Email, Phone, Total_Experience, LinkedIn_Profile, Education, Hackathons_and_Achievements, Activities_and_Interests) 
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
@@ -46,7 +54,8 @@ def insert_data_attachment(data):
         )
 
         cursor.execute(user_query, user_values)
-        user_id = cursor.lastrowid 
+        user_id = cursor.lastrowid  
+
         for company in data['Companies']:
             company_query = """
             INSERT INTO Companies (user_id, Company_Name, Role, Start_Date, End_Date, Time_Spent) 
@@ -62,7 +71,7 @@ def insert_data_attachment(data):
             )
 
             cursor.execute(company_query, company_values)
-            company_id = cursor.lastrowid  
+            company_id = cursor.lastrowid 
             for project in company['Projects']:
                 project_query = """
                 INSERT INTO Projects (company_id, Project_Name, Project_Overview) 
@@ -78,10 +87,10 @@ def insert_data_attachment(data):
         connection.commit()  
 
     except mysql.connector.Error as err:
-        raise DatabaseError(f"Error while inserting data: {err}")
+        log_error(f"Error while inserting data: {err}")
     
     finally:
         if cursor:
-            cursor.close()
+            cursor.close() 
         if connection:
-            connection.close()
+            connection.close() 

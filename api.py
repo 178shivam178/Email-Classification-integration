@@ -12,10 +12,11 @@ from database_component.attachment_db import insert_data_attachment
 
 app = Flask(__name__)
 
+log_file_path = 'logs/api.txt'
 if not os.path.exists('logs'):
     os.makedirs('logs')
 
-logging.basicConfig(filename='logs/app.log',
+logging.basicConfig(filename=log_file_path,
                     level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -28,7 +29,7 @@ error_responses = {
 
 def log_and_return_error(error_message, status_code):
     logging.error(error_message)
-    print(f"Error: {error_message}")  # Print error message
+    print(f"Error: {error_message}") 
     return jsonify(error_responses.get(status_code, {})), status_code
 
 @app.route('/v1/mail_api', methods=['GET', 'POST'])
@@ -48,16 +49,16 @@ def outlookAPI():
 
         if not (username and password and types):
             return log_and_return_error("Missing required parameters", 400)
-        
+
         logging.info(f"Request received for user: {username}, type: {types}")
-        print(f"Request received for user: {username}, type: {types}")  # Print step
+        print(f"Request received for user: {username}, type: {types}") 
 
         result = Mail_Reader(username, password, types)
         if result is None:
             return log_and_return_error("No emails found in inbox", 404)
 
         logging.info("Getting new emails...")
-        print("Getting new emails...")  # Print step
+        print("Getting new emails...")  
 
         sender_email = result.get('From', None)
         recipient_email = username
@@ -67,64 +68,64 @@ def outlookAPI():
         attachment_path = result.get('Attachment', None)
 
         logging.info(f"Email details: From={sender_email}, To={recipient_email}, Subject={subject}")
-        print(f"Email details: From={sender_email}, To={recipient_email}, Subject={subject}")  # Print step
+        print(f"Email details: From={sender_email}, To={recipient_email}, Subject={subject}")
 
-        # Insert email data into the database
         try:
             insert_email_data(sender_email, recipient_email, subject, attachment_path, message_text)
-            print("Email data inserted into database.")  # Print output
+            print("Email data inserted into database.")  
         except Exception as e:
             logging.error(f"Error inserting email data: {str(e)}")
-            print(f"Error inserting email data: {str(e)}")  # Print error but continue
+            print(f"Error inserting email data: {str(e)}")  
 
-        # Model Prediction
         predicted_labels = None
         try:
             logging.info("Model Prediction...")
-            print("Model Prediction...")  # Print step
+            print("Model Prediction...") 
             predicted_labels = classify_mail(message_text)
-            print(f"Predicted Labels: {predicted_labels}")  # Print output
-            insert_body_processed_data(sender_email, recipient_email, subject, attachment_path, message_text, predicted_labels)
-            print("Predicted labels inserted into database.")  # Print output
+            print(f"Predicted Labels: {predicted_labels}") 
         except Exception as e:
             logging.error(f"Model Classification Error: {str(e)}")
-            print(f"Model Classification Error: {str(e)}")  # Print error but continue
+            print(f"Model Classification Error: {str(e)}") 
 
-        # Move email to corresponding folder based on prediction
+        try:
+            insert_body_processed_data(sender_email, recipient_email, subject, attachment_path, message_text, predicted_labels)
+            print("Predicted labels inserted into database.") 
+        except Exception as e:
+            logging.error(f"Error inserting predicted labels: {str(e)}")
+            print(f"Error inserting predicted labels: {str(e)}") 
+
         try:
             logging.info("Moving email to corresponding folder based on prediction...")
-            print("Moving email to corresponding folder based on prediction...")  # Print step
+            print("Moving email to corresponding folder based on prediction...")  
             inbox_to_folder(uid, predicted_labels, username, password)
-            print("Email moved to folder based on prediction.")  # Print output
+            print("Email moved to folder based on prediction.") 
         except Exception as e:
             logging.error(f"Data Migration Error on Outlook: {str(e)}")
-            print(f"Data Migration Error on Outlook: {str(e)}")  # Print error but continue
+            print(f"Data Migration Error on Outlook: {str(e)}")  
 
-        # Process attachment if present
-        if attachment_path:
+        if attachment_path and predicted_labels == "Job Application":
             try:
                 logging.info("Extracting text from file...")
-                print("Extracting text from file...")  # Print step
+                print("Extracting text from file...") 
                 extracted_text = extract_text_from_file(attachment_path)
-                print(f"Extracted Text: {extracted_text}")  # Print output
                 if not extracted_text:
                     raise ValueError("No text extracted from the document")
 
                 logging.info("Extracting resume entities...")
-                print("Extracting resume entities...")  # Print step
+                print("Extracting resume entities...") 
                 extracted_entities = extract_resume_entities(extracted_text)
-                print(f"Extracted Entities: {extracted_entities}")  # Print output
+                print(f"Extracted Entities: {extracted_entities}") 
 
                 logging.info("Inserting extracted data into database...")
-                print("Inserting extracted data into database...")  # Print step
+                print("Inserting extracted data into database...")  
                 insert_data_attachment(extracted_entities)
-                print("Extracted data inserted into database.")  # Print output
+                print("Extracted data inserted into database.") 
 
             except Exception as e:
                 logging.error(f"Attachment Processing Error: {str(e)}")
-                print(f"Attachment Processing Error: {str(e)}")  # Print error but continue
+                print(f"Attachment Processing Error: {str(e)}")  
 
-        print("Done processing the email.")  # Print completion
+        print("Done processing the email.")  
         return jsonify({'Response': "Ok"}), 200
 
     except ValueError as ve:

@@ -1,0 +1,79 @@
+2024-09-26 21:27:19,456 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:3008
+2024-09-26 21:27:19,456 - INFO - [33mPress CTRL+C to quit[0m
+2024-09-26 21:27:19,456 - INFO -  * Restarting with stat
+2024-09-26 21:27:20,941 - WARNING -  * Debugger is active!
+2024-09-26 21:27:20,952 - INFO -  * Debugger PIN: 571-003-056
+2024-09-26 21:27:21,403 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:27:24,318 - ERROR - No emails found in inbox
+2024-09-26 21:27:24,318 - INFO - 127.0.0.1 - - [26/Sep/2024 21:27:24] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:27:29,350 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:27:34,434 - INFO - Getting new emails...
+2024-09-26 21:27:34,434 - INFO - Email details: From=Shivam Singh <shivamcse17818@gmail.com>, To=shivamcse17818@outlook.com, Subject=Application for dS
+2024-09-26 21:27:34,460 - INFO - Model Prediction...
+2024-09-26 21:27:35,163 - INFO - Moving email to corresponding folder based on prediction...
+2024-09-26 21:27:42,216 - INFO - Extracting text from file...
+2024-09-26 21:27:42,475 - INFO - Extracting resume entities...
+2024-09-26 21:27:50,583 - INFO - Inserting extracted data into database...
+2024-09-26 21:27:50,598 - ERROR - Attachment Processing Error: 'NoneType' object is not subscriptable
+2024-09-26 21:27:50,598 - INFO - 127.0.0.1 - - [26/Sep/2024 21:27:50] "GET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1" 200 -
+2024-09-26 21:27:55,605 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:27:59,636 - ERROR - No emails found in inbox
+2024-09-26 21:27:59,651 - INFO - 127.0.0.1 - - [26/Sep/2024 21:27:59] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:28:04,667 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:28:08,838 - ERROR - No emails found in inbox
+2024-09-26 21:28:08,840 - INFO - 127.0.0.1 - - [26/Sep/2024 21:28:08] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:28:13,844 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:28:18,646 - ERROR - No emails found in inbox
+2024-09-26 21:28:18,646 - INFO - 127.0.0.1 - - [26/Sep/2024 21:28:18] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:28:23,666 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:28:27,553 - ERROR - No emails found in inbox
+2024-09-26 21:28:27,553 - INFO - 127.0.0.1 - - [26/Sep/2024 21:28:27] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:28:32,573 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:28:36,617 - ERROR - No emails found in inbox
+2024-09-26 21:28:36,617 - INFO - 127.0.0.1 - - [26/Sep/2024 21:28:36] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:28:41,634 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:28:45,837 - ERROR - No emails found in inbox
+2024-09-26 21:28:45,837 - INFO - 127.0.0.1 - - [26/Sep/2024 21:28:45] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:28:50,851 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:28:56,616 - ERROR - No emails found in inbox
+2024-09-26 21:28:56,616 - INFO - 127.0.0.1 - - [26/Sep/2024 21:28:56] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:29:01,640 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:29:05,845 - ERROR - No emails found in inbox
+2024-09-26 21:29:05,845 - INFO - 127.0.0.1 - - [26/Sep/2024 21:29:05] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:29:10,862 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:29:15,788 - ERROR - No emails found in inbox
+2024-09-26 21:29:15,789 - INFO - 127.0.0.1 - - [26/Sep/2024 21:29:15] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:29:20,796 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:29:23,593 - ERROR - No emails found in inbox
+2024-09-26 21:29:23,605 - INFO - 127.0.0.1 - - [26/Sep/2024 21:29:23] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:29:28,622 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:29:32,660 - ERROR - No emails found in inbox
+2024-09-26 21:29:32,660 - INFO - 127.0.0.1 - - [26/Sep/2024 21:29:32] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:29:37,680 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:29:41,577 - ERROR - No emails found in inbox
+2024-09-26 21:29:41,577 - INFO - 127.0.0.1 - - [26/Sep/2024 21:29:41] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:29:46,594 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:29:50,632 - ERROR - No emails found in inbox
+2024-09-26 21:29:50,634 - INFO - 127.0.0.1 - - [26/Sep/2024 21:29:50] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:29:55,640 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:30:00,541 - INFO - Getting new emails...
+2024-09-26 21:30:00,556 - INFO - Email details: From=Shivam Singh <shivamcse17818@gmail.com>, To=shivamcse17818@outlook.com, Subject=Job Opening
+2024-09-26 21:30:00,579 - INFO - Model Prediction...
+2024-09-26 21:30:02,490 - INFO - Moving email to corresponding folder based on prediction...
+2024-09-26 21:30:11,014 - INFO - 127.0.0.1 - - [26/Sep/2024 21:30:11] "GET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1" 200 -
+2024-09-26 21:30:16,034 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:30:20,817 - ERROR - No emails found in inbox
+2024-09-26 21:30:20,818 - INFO - 127.0.0.1 - - [26/Sep/2024 21:30:20] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:30:25,833 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:30:30,642 - ERROR - No emails found in inbox
+2024-09-26 21:30:30,644 - INFO - 127.0.0.1 - - [26/Sep/2024 21:30:30] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -
+2024-09-26 21:30:35,657 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:30:40,575 - INFO - Getting new emails...
+2024-09-26 21:30:40,575 - INFO - Email details: From=Shivam Singh <shivamcse17818@gmail.com>, To=shivamcse17818@outlook.com, Subject=Testing
+2024-09-26 21:30:40,607 - INFO - Model Prediction...
+2024-09-26 21:30:42,456 - INFO - Moving email to corresponding folder based on prediction...
+2024-09-26 21:30:48,995 - INFO - 127.0.0.1 - - [26/Sep/2024 21:30:48] "GET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1" 200 -
+2024-09-26 21:30:54,018 - INFO - Request received for user: shivamcse17818@outlook.com, type: UNSEEN
+2024-09-26 21:31:01,140 - ERROR - No emails found in inbox
+2024-09-26 21:31:01,142 - INFO - 127.0.0.1 - - [26/Sep/2024 21:31:01] "[33mGET /v1/mail_api?username=shivamcse17818%40outlook.com&password=Shivam%4017818&type=UNSEEN HTTP/1.1[0m" 404 -

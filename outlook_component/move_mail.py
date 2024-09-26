@@ -1,97 +1,86 @@
-import os
 import imaplib
 import re
-from dotenv import load_dotenv
-
-load_dotenv()
-IMAP_URL = os.getenv("OUTIMAP")
-
-if IMAP_URL is None:
-    raise EnvironmentError("IMAP URL is missing. Please check your .env file.")
+import os
 
 pattern_uid = re.compile(r'\d+ \(UID (?P<uid>\d+)\)')
 
-class EmailOperationError(Exception):
-    pass
+if not os.path.exists('logs'):
+    os.makedirs('logs')
+
+def log_error(message):
+    with open('logs/move_mail.txt', 'a') as log_file:
+        log_file.write(message + "\n")
 
 def clean(text):
-    try:
-        return "".join(c if c.isalnum() else "_" for c in text)
-    except Exception as e:
-        raise EmailOperationError(f"Error in cleaning text: {e}")
+    return "".join(c if c.isalnum() else "_" for c in text)
 
 def connect(email, password):
     try:
-        imap = imaplib.IMAP4_SSL(IMAP_URL)
+        imap = imaplib.IMAP4_SSL("imap-mail.outlook.com")
         imap.login(email, password)
         return imap
-    except imaplib.IMAP4.error as e:
-        raise EmailOperationError(f"Login failed: {e}")
     except Exception as e:
-        raise EmailOperationError(f"Error connecting to IMAP server: {e}")
+        log_error(f"Error connecting to IMAP: {e}")
+        return None
 
 def disconnect(imap):
     try:
         imap.logout()
     except Exception as e:
-        raise EmailOperationError(f"Error disconnecting from IMAP server: {e}")
+        log_error(f"Error disconnecting from IMAP: {e}")
 
 def parse_uid(data):
     try:
         match = pattern_uid.match(data)
-        if not match:
-            raise EmailOperationError(f"UID parsing failed: No match found in {data}")
-        return match.group('uid')
+        return match.group('uid') if match else None
     except Exception as e:
-        raise EmailOperationError(f"Error parsing UID: {e}")
+        log_error(f"Error parsing UID: {e}")
+        return None
 
 def Create_Folder_For_Body(label, username, password):
-    imap = None
     try:
-        imap = connect(username, password)
-        folder = f"Classification_On_Body/{clean(label)}"
-        result = imap.create(folder)
-        if result[0] != 'OK':
-            raise EmailOperationError(f"Failed to create folder: {folder}")
+        IMAP = "imap-mail.outlook.com"
+        imap = imaplib.IMAP4_SSL(IMAP)
+        imap.login(username, password)
+        folder = "Classification_On_Body/{}".format(clean(label))
+        imap.create(folder)
+        disconnect(imap)
     except Exception as e:
-        raise EmailOperationError(f"Error creating folder: {e}")
-    finally:
-        if imap:
-            disconnect(imap)
+        log_error(f"Error creating folder: {e}")
 
 def FolderChecker_For_Body(label, username, password):
-    imap = None
     try:
-        imap = connect(username, password)
-        folder_to_check = f"Classification_On_Body/{clean(label)}"
-        for i in imap.list()[1]:
+        IMAP = "imap-mail.outlook.com"
+        mail = imaplib.IMAP4_SSL(IMAP)
+        mail.login(username, password)
+        for i in mail.list()[1]:
             l = i.decode().split(' "/" ')
-            if str(l[1]) == folder_to_check:
+            match = "Classification_On_Body"+"/"+clean(label)
+            if str(l[1]) == str(match):
+                disconnect(mail)
                 return True
+        disconnect(mail)
         return False
     except Exception as e:
-        raise EmailOperationError(f"Error checking folder: {e}")
-    finally:
-        if imap:
-            disconnect(imap)
+        log_error(f"Error checking folder: {e}")
+        return False
 
 def Move_Items_For_Body(uid, label, username, password):
-    imap = None
     try:
         imap = connect(username, password)
-        imap.select(mailbox='Inbox', readonly=False)
-        msg_uid = parse_uid(uid[0].decode('utf-8'))
-        destination_folder = f"Classification_On_Body/{clean(label)}"
-        result = imap.uid('COPY', msg_uid, destination_folder)
-        if result[0] != 'OK':
-            raise EmailOperationError(f"Failed to move item UID: {msg_uid} to {destination_folder}")
-        imap.uid('STORE', msg_uid, '+FLAGS')
-        print("DONE")
-    except Exception as e:
-        raise EmailOperationError(f"Error moving items: {e}")
-    finally:
         if imap:
+            imap.select(mailbox='Inbox', readonly=False)
+            msg_uid = parse_uid(uid[0].decode('utf-8'))
+            if msg_uid:
+                destination_folder = "Classification_On_Body" + "/" + clean(label)
+                result = imap.uid('COPY', msg_uid, destination_folder)
+                if result[0] == 'OK':
+                    mov, data = imap.uid('STORE', msg_uid, '+FLAGS', '(\Deleted)')
+                    imap.expunge()
+                    print("Email moved successfully!")
             disconnect(imap)
+    except Exception as e:
+        log_error(f"Error moving email: {e}")
 
 def inbox_to_folder(uid, label, username, password):
     try:
@@ -101,5 +90,4 @@ def inbox_to_folder(uid, label, username, password):
             Create_Folder_For_Body(label, username, password)
             Move_Items_For_Body(uid, label, username, password)
     except Exception as e:
-        print(f"Error during migration: {str(e)}")  # Log the error for debugging
-        raise ValueError("Not able to migrate mail!!")
+        log_error(f"Error in inbox_to_folder: {e}")

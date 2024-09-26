@@ -1,19 +1,28 @@
-from dotenv import load_dotenv
-import json
 import os
+import json
 import openai
+from dotenv import load_dotenv
+from datetime import datetime
+
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
-from datetime import datetime
+
+if not os.path.exists('logs'):
+    os.makedirs('logs')
+
+def log_error(message):
+    with open('logs/resume_parser.txt', 'a') as log_file:
+        log_file.write(message + "\n")
 
 def calculate_duration(start_date, end_date):
     try:
-        start = datetime.strptime(start_date, "%B %Y")  
+        start = datetime.strptime(start_date, "%B %Y") 
         
         if end_date.lower() == "present":
             end = datetime.now() 
         else:
             end = datetime.strptime(end_date, "%B %Y")  
+            
         duration_in_months = (end.year - start.year) * 12 + (end.month - start.month)
 
         years = duration_in_months // 12
@@ -25,6 +34,7 @@ def calculate_duration(start_date, end_date):
             return f"{months} month{'s' if months > 1 else ''}"
     
     except Exception as e:
+        log_error(f"Error calculating duration from {start_date} to {end_date}: {str(e)}")
         return "None"  
 
 def extract_resume_entities(input_text):
@@ -97,8 +107,9 @@ def extract_resume_entities(input_text):
         )
         extracted_json = response['choices'][0]['message']['content']
 
-        extracted_data = eval(extracted_json)  
-        for company in extracted_data['Companies']:
+        extracted_data = json.loads(extracted_json)  
+      
+        for company in extracted_data.get('Companies', []):
             start_date = company.get("Start_Date", "None")
             end_date = company.get("End_Date", "None")
             company['Time_Spent'] = calculate_duration(start_date, end_date)
@@ -106,5 +117,5 @@ def extract_resume_entities(input_text):
         return extracted_data
 
     except Exception as e:
-        return f"Error: {str(e)}"
-
+        log_error(f"Error extracting resume entities: {str(e)}")
+        return None
